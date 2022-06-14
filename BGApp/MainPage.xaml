@@ -1,11 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="BGApp.MainPage">
-
+             xmlns:scroll="clr-namespace:Xamarin.Forms.Extended;assembly=Xamarin.Forms.Extended.InfiniteScrolling"
+             x:Class="BGApp.MainPage"
+             NavigationPage.HasNavigationBar="False">
     <StackLayout Padding="13">
         <ListView x:Name="boardGamesListView"
-                  HasUnevenRows="True">
+                  HasUnevenRows="True"
+                  ItemSelected="boardGamesListView_ItemSelected">
+            <ListView.Behaviors>
+                <scroll:InfiniteScrollBehavior />
+            </ListView.Behaviors>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -41,6 +46,9 @@
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
+            <ListView.Footer>
+                <ActivityIndicator IsRunning="{Binding IsWorking}" />
+            </ListView.Footer>
         </ListView>
         <!--<StackLayout Spacing="20">
             <StackLayout>
