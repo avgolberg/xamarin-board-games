@@ -1,90 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:scroll="clr-namespace:Xamarin.Forms.Extended;assembly=Xamarin.Forms.Extended.InfiniteScrolling"
-             x:Class="BGApp.MainPage"
-             NavigationPage.HasNavigationBar="False">
-    <StackLayout Padding="13">
-        <ListView x:Name="boardGamesListView"
-                  HasUnevenRows="True"
-                  ItemSelected="boardGamesListView_ItemSelected">
-            <ListView.Behaviors>
-                <scroll:InfiniteScrollBehavior />
-            </ListView.Behaviors>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <StackLayout Padding="20">
-                            <ActivityIndicator IsRunning="{Binding Source={x:Reference bgImage}, Path=IsLoading}" />
-                            <Image Source="{Binding image_url}"
-                                   HeightRequest="200"
-                                   x:Name="bgImage"/>
-                            <Label Text="{Binding name}"
-                                   FontSize="20"
-                                   TextColor="Black" />
-                            <StackLayout Orientation="Horizontal">
-                                <Label>
-                                    <Label.Text>
-                                        <MultiBinding StringFormat="{}Players:  {0}-{1}">
-                                            <Binding Path="min_players" />
-                                            <Binding Path="max_players" />
-                                        </MultiBinding>
-                                    </Label.Text>
-                                </Label>
-                            </StackLayout>
-                            <StackLayout Orientation="Horizontal">
-                                <Label>
-                                    <Label.Text>
-                                        <MultiBinding StringFormat="{}Playtime:  {0}-{1} minutes">
-                                            <Binding Path="min_playtime" />
-                                            <Binding Path="max_playtime" />
-                                        </MultiBinding>
-                                    </Label.Text>
-                                </Label>
-                            </StackLayout>
-                        </StackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-            <ListView.Footer>
-                <ActivityIndicator IsRunning="{Binding IsWorking}" />
-            </ListView.Footer>
-        </ListView>
-        <!--<StackLayout Spacing="20">
-            <StackLayout>
-                
-
-            </StackLayout>
-            <StackLayout>
-                <Image Source="https://sites.google.com/site/prirodanaha/_/rsrc/1468741750018/home/%D0%96%D0%B8%D0%B2%D0%B0%D1%8F-%D0%BF%D1%80%D0%B8%D1%80%D0%BE%D0%B4%D0%B0.jpg" />
-                <Label Text="Tiny Towns"
-                       FontSize="20"
-                       TextColor="Black" />
-                <StackLayout Orientation="Horizontal">
-                    <Label Text="Players: " />
-                    <Label Text="3-5" />
-                </StackLayout>
-                <StackLayout Orientation="Horizontal">
-                    <Label Text="Playtime: " />
-                    <Label Text="30-45 minutes" />
-                </StackLayout>
-
-            </StackLayout>
-            <StackLayout>
-                <Image Source="https://sites.google.com/site/prirodanaha/_/rsrc/1468741750018/home/%D0%96%D0%B8%D0%B2%D0%B0%D1%8F-%D0%BF%D1%80%D0%B8%D1%80%D0%BE%D0%B4%D0%B0.jpg" />
-                <Label Text="Tiny Towns"
-                       FontSize="20"
-                       TextColor="Black" />
-                <StackLayout Orientation="Horizontal">
-                    <Label Text="Players: " />
-                    <Label Text="3-5" />
-                </StackLayout>
-                <StackLayout Orientation="Horizontal">
-                    <Label Text="Playtime: " />
-                    <Label Text="30-45 minutes" />
-                </StackLayout>
-
-            </StackLayout>-->
-
-    </StackLayout>
-</ContentPage>
+<TabbedPage 
+    xmlns:local="clr-namespace:BGApp"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+            android:TabbedPage.ToolbarPlacement="Bottom"
+            x:Class="BGApp.MainPage">
+    <NavigationPage Title="Catalog" IconImageSource="catalog.png">
+        <x:Arguments>
+            <local:CatalogPage />
+        </x:Arguments>
+    </NavigationPage>
+    <ContentPage Title="Collection"
+                 IconImageSource="collection.png">
+        <Label Text="Collection"
+               HorizontalOptions="Center"
+               VerticalOptions="Center" />
+    </ContentPage>
+    <ContentPage Title="WishList"
+                 IconImageSource="wishlist.png">
+        <Label Text="WishList"
+               HorizontalOptions="Center"
+               VerticalOptions="Center" />
+    </ContentPage>
+</TabbedPage>

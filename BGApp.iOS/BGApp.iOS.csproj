@@ -142,4 +142,13 @@
       <Name>BGApp</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\collection.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\catalog.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\wishlist.png" />
+  </ItemGroup>
 </Project>

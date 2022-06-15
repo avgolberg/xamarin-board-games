@@ -1,8 +1,129 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="BGApp.BoardGameDetailPage">
-    <StackLayout>
-        <Label Text="{Binding name}" />
-    </StackLayout>
+             x:Class="BGApp.BoardGameDetailPage"
+             Title="{Binding name}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label">
+                <Setter Property="FontSize"
+                        Value="16" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentView>
+        <ScrollView>
+            <StackLayout Padding="20"
+                         VerticalOptions="StartAndExpand">
+                <AbsoluteLayout>
+                    <ActivityIndicator IsRunning="{Binding Source={x:Reference bgImage}, Path=IsLoading}"
+                                       AbsoluteLayout.LayoutBounds="0.5, 0.5, 0.2, 0.2"
+                                       AbsoluteLayout.LayoutFlags="All" />
+                    <Image HeightRequest="300"
+                           x:Name="bgImage"
+                           AbsoluteLayout.LayoutBounds="0.5, 0.5, 1, 1"
+                           AbsoluteLayout.LayoutFlags="All">
+                        <Image.Source>
+                            <UriImageSource Uri="{Binding image_url}"
+                                            CachingEnabled="false" />
+                        </Image.Source>
+                    </Image>
+                </AbsoluteLayout>
+                <Label HorizontalOptions="Center">
+                    <Label.Text>
+                        <MultiBinding StringFormat="{}{0} · {1}-{2} players · {3}-{4} minutes">
+                            <Binding Path="year_published" />
+                            <Binding Path="min_players" />
+                            <Binding Path="max_players" />
+                            <Binding Path="min_playtime" />
+                            <Binding Path="max_playtime" />
+                        </MultiBinding>
+                    </Label.Text>
+                </Label>
+                <Label Text="{Binding primary_publisher.name, StringFormat='Publisher: {0}'}" />
+                <Label Text="{Binding primary_designer.name, StringFormat='Designer: {0}'}" />
+                <Label x:Name="categoriesLabel"
+                       LineBreakMode="WordWrap"
+                       VerticalOptions="StartAndExpand" />
+                <Label x:Name="mechanicsLabel"
+                       LineBreakMode="WordWrap"
+                       VerticalOptions="StartAndExpand" />
+                <Label Text="{Binding min_age, StringFormat='Minimum Age: {0}'}" />
+                <Label Text="{Binding price, StringFormat='Minimum Price: {0} $'}" />
+                <Label Text="{Binding msrp, StringFormat='Recommended Price: {0} $'}" />
+                <Label Text="{Binding description_preview}" />
+                <Label x:Name="designersLabel"
+                       LineBreakMode="WordWrap"
+                       VerticalOptions="StartAndExpand" />
+                <Label Text="Images and videos" />
+                <StackLayout>
+                    <ListView x:Name="imagesListView" HasUnevenRows="True">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout>
+                                        <AbsoluteLayout>
+                                            <ActivityIndicator AbsoluteLayout.LayoutBounds="0.5, 0.5, 0.2, 0.2"
+                                                               AbsoluteLayout.LayoutFlags="All"
+                                                               IsRunning="{Binding Source={x:Reference image}, Path=IsLoading}" />
+                                            <Image x:Name="image"
+                                                   AbsoluteLayout.LayoutBounds="0.5, 0.5, 0.9, 0.9"
+                                                   AbsoluteLayout.LayoutFlags="All">
+                                                <Image.Source>
+                                                    <UriImageSource Uri="{Binding medium}"
+                                                                    CachingEnabled="false" />
+                                                </Image.Source>
+                                            </Image>
+                                        </AbsoluteLayout>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                        <ListView.Footer>
+                            <ActivityIndicator IsRunning="{Binding IsWorking}" />
+                        </ListView.Footer>
+                    </ListView>
+
+                </StackLayout>
+                <StackLayout Padding="20">
+                    <ListView x:Name="videosListView" 
+                              RowHeight="300" ItemSelected="videosListView_ItemSelected">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout VerticalOptions="StartAndExpand">
+                                        <AbsoluteLayout>
+                                            <ActivityIndicator AbsoluteLayout.LayoutBounds="0.5, 0.5, 0.2, 0.2"
+                                                               AbsoluteLayout.LayoutFlags="All"
+                                                               IsRunning="{Binding Source={x:Reference video}, Path=IsLoading}" />
+                                            <Image x:Name="video"
+                                                   AbsoluteLayout.LayoutBounds="0.5, 0.5, 0.9, 0.9"
+                                                   AbsoluteLayout.LayoutFlags="All">
+                                                <Image.Source>
+                                                    <UriImageSource Uri="{Binding image_url}"
+                                                                    CachingEnabled="false" />
+                                                </Image.Source>
+                                            </Image>
+                                        </AbsoluteLayout>
+                                        <Label LineBreakMode="WordWrap">
+                                            <Label.Text>
+                                                <MultiBinding StringFormat="{}{0} - {1}">
+                                                    <Binding Path="channel_name" />
+                                                    <Binding Path="title" />
+                                                </MultiBinding>
+                                            </Label.Text>
+                                        </Label>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                        <ListView.Footer>
+                            <ActivityIndicator IsRunning="{Binding IsWorking}" />
+                        </ListView.Footer>
+                    </ListView>
+
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentView>
 </ContentPage>
