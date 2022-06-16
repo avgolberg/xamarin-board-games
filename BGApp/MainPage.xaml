@@ -23,4 +23,10 @@
                HorizontalOptions="Center"
                VerticalOptions="Center" />
     </ContentPage>
+    <NavigationPage Title="Random Game"
+                    IconImageSource="random.png">
+        <x:Arguments>
+            <local:RandomPage />
+        </x:Arguments>
+    </NavigationPage>
 </TabbedPage>

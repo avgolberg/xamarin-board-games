@@ -16,18 +16,18 @@ namespace BGApp
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class BoardGameDetailPage : ContentPage
     {
-        public BoardGame boardGame; 
+        public BoardGame boardGame;
         private HttpClient _client = new HttpClient();
 
         public BoardGameDetailPage(BoardGame boardGame)
         {
             this.boardGame = boardGame ?? throw new ArgumentNullException();
 
-            BindingContext = boardGame;          
-
-            InitializeComponent();
+            BindingContext = boardGame;
 
             LoadData();
+
+            InitializeComponent();
         }
         private void LoadData()
         {
@@ -43,21 +43,36 @@ namespace BGApp
             string Url = "https://api.boardgameatlas.com/api/game/categories?pretty=true&client_id=5cTX7InZUl";
             var content = await _client.GetStringAsync(Url);
             var categories = JsonConvert.DeserializeObject<Categories>(content);
-            
-            foreach (Category category in boardGame.categories)
-            {
-                category.name = categories.categories.Where(c => c.id==category.id).First().name;
-            }
 
-            int count = boardGame.categories.Count - 1;
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < count; i++)
-            {
-                sb.Append(boardGame.categories[i].name + " · ");
-            }
-            sb.Append(boardGame.categories[count].name);
-            categoriesLabel.Text = "Categories: " + sb.ToString();
 
+            if (boardGame.categories.Count != 0)
+            {
+                foreach (Category category in boardGame.categories)
+                {
+                    category.name = categories.categories.Where(c => c.id == category.id).First().name;
+                }
+
+                int count = boardGame.categories.Count - 1;
+                StringBuilder sb = new StringBuilder();
+                if (boardGame.mechanics.Count > 1)
+                {
+
+                    for (int i = 0; i < count; i++)
+                    {
+                        sb.Append(boardGame.categories[i].name + " · ");
+                    }
+                    sb.Append(boardGame.categories[count].name);
+                    categoriesLabel.Text = "Categories: " + sb.ToString();
+                }
+                else if (boardGame.mechanics.Count == 1)
+                {
+                    categoriesLabel.Text = "Categories: " + boardGame.categories[count].name;
+                }
+            }
+            else
+            {
+                categoriesLabel.Text = "Categories: ";
+            }
         }
 
         private async void LoadMechanics()
@@ -66,19 +81,33 @@ namespace BGApp
             var content = await _client.GetStringAsync(Url);
             var mechanics = JsonConvert.DeserializeObject<Mechanics>(content);
 
-            foreach (Mechanic mechanic in boardGame.mechanics)
+            if (boardGame.mechanics.Count != 0)
             {
-                mechanic.name = mechanics.mechanics.Where(m => m.id == mechanic.id).First().name;
-            }
+                foreach (Mechanic mechanic in boardGame.mechanics)
+                {
+                    mechanic.name = mechanics.mechanics.Where(m => m.id == mechanic.id).First().name;
+                }
 
-            int count = boardGame.mechanics.Count - 1;
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < count; i++)
-            {
-                sb.Append(boardGame.mechanics[i].name + " · ");
+                int count = boardGame.mechanics.Count - 1;
+                StringBuilder sb = new StringBuilder();
+                if (boardGame.mechanics.Count > 1)
+                {
+                    for (int i = 0; i < count; i++)
+                    {
+                        sb.Append(boardGame.mechanics[i].name + " · ");
+                    }
+                    sb.Append(boardGame.mechanics[count].name);
+                    mechanicsLabel.Text = "Mechanics: " + sb.ToString();
+                }
+                else if (boardGame.mechanics.Count == 1)
+                {
+                    mechanicsLabel.Text = "Mechanics: " + boardGame.mechanics[count].name;
+                }
             }
-            sb.Append(boardGame.mechanics[count].name);
-            mechanicsLabel.Text = "Mechanics: " + sb.ToString();
+            else
+            {
+                mechanicsLabel.Text = "Mechanics: ";
+            }
 
         }
 
