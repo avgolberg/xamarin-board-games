@@ -17,12 +17,12 @@
                HorizontalOptions="Center"
                VerticalOptions="Center" />
     </ContentPage>
-    <ContentPage Title="WishList"
-                 IconImageSource="wishlist.png">
-        <Label Text="WishList"
-               HorizontalOptions="Center"
-               VerticalOptions="Center" />
-    </ContentPage>
+    <NavigationPage Title="WishList"
+                    IconImageSource="wishlist.png">
+        <x:Arguments>
+            <local:WishListPage />
+        </x:Arguments>
+    </NavigationPage>
     <NavigationPage Title="Random Game"
                     IconImageSource="random.png">
         <x:Arguments>

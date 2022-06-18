@@ -24,11 +24,18 @@ namespace BGApp
 
         private async void LoadData()
         {
-            string Url = "https://api.boardgameatlas.com/api/search?random=true&client_id=5cTX7InZUl";
-            var content = await _client.GetStringAsync(Url);
-            var boardGame = JsonConvert.DeserializeObject<Games>(content);
+            try
+            {
+                string Url = "https://api.boardgameatlas.com/api/search?random=true&client_id=5cTX7InZUl";
+                var content = await _client.GetStringAsync(Url);
+                var boardGame = JsonConvert.DeserializeObject<Games>(content);
 
-            await Navigation.PushAsync(new BoardGameDetailPage(boardGame.games.First()));
+                await Navigation.PushAsync(new BoardGameDetailPage(boardGame.games.First()));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private void random_Clicked(object sender, EventArgs e)

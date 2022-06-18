@@ -28,6 +28,15 @@
                                             CachingEnabled="false" />
                         </Image.Source>
                     </Image>
+                    <Image HeightRequest="30"
+                           x:Name="wishListStar"
+                           AbsoluteLayout.LayoutBounds="1, 0, 0.15, 0.15"
+                           AbsoluteLayout.LayoutFlags="All">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnImageNameTapped"
+                                                  NumberOfTapsRequired="1" />
+                        </Image.GestureRecognizers>
+                    </Image>
                 </AbsoluteLayout>
                 <Label HorizontalOptions="Center">
                     <Label.Text>

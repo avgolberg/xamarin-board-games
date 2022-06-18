@@ -5,6 +5,7 @@
              x:Class="BGApp.CatalogPage"
              NavigationPage.HasNavigationBar="False">
     <StackLayout Padding="13">
+        <SearchBar Placeholder="Search..." x:Name="search" SearchButtonPressed="search_SearchButtonPressed" TextChanged="search_TextChanged"/>
         <ListView x:Name="boardGamesListView"
                   HasUnevenRows="True"
                   ItemSelected="boardGamesListView_ItemSelected">
