@@ -6,17 +6,19 @@
             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
             android:TabbedPage.ToolbarPlacement="Bottom"
             x:Class="BGApp.MainPage">
-    <NavigationPage Title="Catalog" IconImageSource="catalog.png">
+    <NavigationPage Title="Catalog"
+                    IconImageSource="catalog.png">
         <x:Arguments>
             <local:CatalogPage />
         </x:Arguments>
     </NavigationPage>
-    <ContentPage Title="Collection"
-                 IconImageSource="collection.png">
-        <Label Text="Collection"
-               HorizontalOptions="Center"
-               VerticalOptions="Center" />
-    </ContentPage>
+    <NavigationPage Title="Collection"
+                    IconImageSource="collection.png">
+        <x:Arguments>
+            <local:CollectionPage />
+        </x:Arguments>
+    </NavigationPage>
+   
     <NavigationPage Title="WishList"
                     IconImageSource="wishlist.png">
         <x:Arguments>

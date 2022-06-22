@@ -6,6 +6,6 @@ namespace BGApp.Models
 {
     public class Mechanics
     {
-        public IList<Mechanic> mechanics { get; set; }
+        public List<Mechanic> mechanics { get; set; }
     }
 }

@@ -126,9 +126,6 @@
                                 </ViewCell>
                             </DataTemplate>
                         </ListView.ItemTemplate>
-                        <ListView.Footer>
-                            <ActivityIndicator IsRunning="{Binding IsWorking}" />
-                        </ListView.Footer>
                     </ListView>
 
                 </StackLayout>

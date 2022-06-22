@@ -5,7 +5,64 @@
              x:Class="BGApp.CatalogPage"
              NavigationPage.HasNavigationBar="False">
     <StackLayout Padding="13">
-        <SearchBar Placeholder="Search..." x:Name="search" SearchButtonPressed="search_SearchButtonPressed" TextChanged="search_TextChanged"/>
+        <SearchBar Placeholder="Search..."
+                   x:Name="search"
+                   SearchButtonPressed="search_SearchButtonPressed"
+                   TextChanged="search_TextChanged" />
+        <ImageButton x:Name="addFilters"
+                     Source="expandArrow.png"
+                     HorizontalOptions="End"
+                     VerticalOptions="Center"
+                     BackgroundColor="White"
+                     WidthRequest="30"
+                     HeightRequest="30"
+                     Clicked="addFilters_Clicked" />
+        <ScrollView x:Name="filters"
+                    IsVisible="false"
+                    VerticalOptions="StartAndExpand">
+            <TableView Intent="Form">
+                <TableRoot>
+                    <TableSection>
+                        <ViewCell>
+                            <Picker Title="Sort By">
+                                <Picker.Items>
+                                    <x:String>Name</x:String>
+                                    <x:String>Price</x:String>
+                                    <x:String>Year Published</x:String>
+                                </Picker.Items>
+                            </Picker>
+                        </ViewCell>
+                    </TableSection>
+                    <TableSection Title="Filters">
+                        <EntryCell Label="Min Age"
+                                   Placeholder=""
+                                   Keyboard="Numeric" />
+                        <EntryCell Label="Min Players"
+                                   Placeholder=""
+                                   Keyboard="Numeric" />
+                        <EntryCell Label="Max Players"
+                                   Placeholder=""
+                                   Keyboard="Numeric" />
+                        <EntryCell Label="Min Playtime"
+                                   Placeholder=""
+                                   Keyboard="Numeric" />
+                        <EntryCell Label="Max Playtime"
+                                   Placeholder=""
+                                   Keyboard="Numeric" />
+                        <ViewCell x:Name="categories" Tapped="categories_Tapped">
+                            <StackLayout>
+                                <Label Text="Categories" />
+                                <Label x:Name="categoryName"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="EndAndExpand"
+                                       Text="None"
+                                       TextColor="Gray" />
+                            </StackLayout>
+                        </ViewCell>
+                    </TableSection>
+                </TableRoot>
+            </TableView>
+        </ScrollView>
         <ListView x:Name="boardGamesListView"
                   HasUnevenRows="True"
                   ItemSelected="boardGamesListView_ItemSelected">

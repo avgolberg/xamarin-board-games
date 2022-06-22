@@ -6,6 +6,6 @@ namespace BGApp.Models
 {
     public class BGVideos
     {
-        public IList<BGVideo> videos { get; set; }
+        public List<BGVideo> videos { get; set; }
     }
 }

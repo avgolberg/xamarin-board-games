@@ -18,7 +18,7 @@ namespace BGApp
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class BoardGameDetailPage : ContentPage
     {
-        public BoardGame boardGame;
+        private BoardGame boardGame;
         private HttpClient _client = new HttpClient();
         private SQLiteAsyncConnection _connection;
         private bool isOnWishList = false;
@@ -36,7 +36,6 @@ namespace BGApp
             IsOnWishList();
             LoadCategories();
             LoadMechanics();
-            //LoadDesigners();
             LoadImages();
             LoadVideos();
         }
@@ -46,7 +45,8 @@ namespace BGApp
             {
                 await _connection.CreateTableAsync<BGSQLite>();
                 var wishListBoardGamesIds = await _connection.Table<BGSQLite>().ToListAsync();
-                if (wishListBoardGamesIds.Where(bg => boardGame.id.Equals(bg.id)).FirstOrDefault() != null)
+                var game = wishListBoardGamesIds.Find(bg => boardGame.id.Equals(bg.id));
+                if (game != null)
                 {
                     isOnWishList = true;
                     wishListStar.Source = "star.png";
@@ -76,19 +76,19 @@ namespace BGApp
                 var content = await _client.GetStringAsync(Url);
                 var categories = JsonConvert.DeserializeObject<Categories>(content);
 
-
                 if (boardGame.categories.Count != 0)
                 {
                     foreach (Category category in boardGame.categories)
                     {
-                        category.name = categories.categories.Where(c => c.id == category.id).First().name;
+                        var categoryName = categories.categories.Find(c => c.id == category.id);
+                        if (categoryName != null)
+                            category.name = categoryName.name;
                     }
 
                     int count = boardGame.categories.Count - 1;
                     StringBuilder sb = new StringBuilder();
                     if (boardGame.mechanics.Count > 1)
                     {
-
                         for (int i = 0; i < count; i++)
                         {
                             sb.Append(boardGame.categories[i].name + " · ");
@@ -124,7 +124,9 @@ namespace BGApp
                 {
                     foreach (Mechanic mechanic in boardGame.mechanics)
                     {
-                        mechanic.name = mechanics.mechanics.Where(m => m.id == mechanic.id).First().name;
+                        var mechanicName = mechanics.mechanics.Find(m => m.id == mechanic.id);
+                        if (mechanicName != null)
+                            mechanic.name = mechanicName.name;
                     }
 
                     int count = boardGame.mechanics.Count - 1;
@@ -201,7 +203,7 @@ namespace BGApp
                 if (isOnWishList)
                 {
                     var wishListBoardGamesIds = await _connection.Table<BGSQLite>().ToListAsync();
-                    var gameToDel = wishListBoardGamesIds.Where(bg => boardGame.id.Equals(bg.id)).FirstOrDefault();
+                    var gameToDel = wishListBoardGamesIds.Find(bg => boardGame.id.Equals(bg.id));
                     if (gameToDel != null)
                         await _connection.DeleteAsync(gameToDel);
 
@@ -226,19 +228,5 @@ namespace BGApp
                 throw ex;
             }
         }
-
-
-        //private async void LoadDesigners()
-        //{
-        //    int count = boardGame.designers.Count - 1;
-        //    StringBuilder sb = new StringBuilder();
-        //    for (int i = 0; i < count; i++)
-        //    {
-        //        sb.Append(boardGame.designers[i].id + " · ");
-        //    }
-        //    sb.Append(boardGame.mechanics[count].name);
-        //    mechanicsLabel.Text = "designers: " + sb.ToString();
-
-        //}
     }
 }

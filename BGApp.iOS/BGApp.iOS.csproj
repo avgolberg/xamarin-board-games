@@ -167,4 +167,10 @@
   <ItemGroup>
     <BundleResource Include="Resources\star.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\expandArrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\collapseArrow.png" />
+  </ItemGroup>
 </Project>

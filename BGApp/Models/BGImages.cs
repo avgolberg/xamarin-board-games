@@ -6,6 +6,6 @@ namespace BGApp.Models
 {
     public class BGImages
     {
-        public IList<BGImage> images { get; set; }
+        public List<BGImage> images { get; set; }
     }
 }

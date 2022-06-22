@@ -6,6 +6,6 @@ namespace BGApp.Models
 {
     public class Categories
     {
-        public IList<Category> categories { get; set; }
+        public List<Category> categories { get; set; }
     }
 }

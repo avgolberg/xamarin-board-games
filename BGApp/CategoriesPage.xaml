@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BGApp.CategoriesPage"
+             Title="Categories">
+    <ScrollView>
+        <StackLayout>
+            <SearchBar Placeholder="Search..."
+                       x:Name="search"
+                       TextChanged="search_TextChanged" />
+            <ListView x:Name="categoriesListView">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="{Binding Data.name}"
+                                       HorizontalOptions="Start" />
+                                <CheckBox IsChecked="{Binding Selected}"
+                                          HorizontalOptions="EndAndExpand" />
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button Text="Select" x:Name="select" Clicked="select_Clicked" />
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

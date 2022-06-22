@@ -1,15 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="BGApp.WishListPage"
+             x:Class="BGApp.CollectionPage"
              NavigationPage.HasNavigationBar="False">
-    <StackLayout>
+    <AbsoluteLayout>
         <ListView x:Name="boardGamesListView"
                   HasUnevenRows="True"
-                  ItemSelected="boardGamesListView_ItemSelected">
+                  ItemSelected="boardGamesListView_ItemSelected"
+                  AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                  AbsoluteLayout.LayoutFlags="All">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem Text="Delete"
+                                      IsDestructive="true"
+                                      Clicked="Delete_Clicked" CommandParameter="{Binding .}"/>
+                        </ViewCell.ContextActions>
                         <StackLayout Padding="20">
                             <AbsoluteLayout>
                                 <ActivityIndicator IsRunning="{Binding Source={x:Reference bgImage}, Path=IsLoading}"
@@ -49,5 +56,18 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-    </StackLayout>
+        <Button   Margin="25"
+                  WidthRequest="60"
+                  HeightRequest="60"
+                  CornerRadius="30"
+                  Text="+"
+                  FontSize="20"
+                  VerticalOptions="End"
+                  HorizontalOptions="End"
+                  BackgroundColor="CornflowerBlue"
+                  AbsoluteLayout.LayoutBounds="1, 1, 1, 1"
+                  AbsoluteLayout.LayoutFlags="All" 
+                  x:Name="addGame"
+                  Clicked="addGame_Clicked" />
+    </AbsoluteLayout>
 </ContentPage>

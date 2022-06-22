@@ -1,9 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="BGApp.WishListPage"
+             x:Class="BGApp.AddGamePage"
              NavigationPage.HasNavigationBar="False">
-    <StackLayout>
+    <StackLayout Padding="13">
+        <SearchBar Placeholder="Search..."
+                   x:Name="search"
+                   TextChanged="search_TextChanged" />
+        <Button Text="Nothing found? Add a new game!"
+                Clicked="addNewGame_Clicked"
+                x:Name="addNewGame"
+                IsVisible="false" />
         <ListView x:Name="boardGamesListView"
                   HasUnevenRows="True"
                   ItemSelected="boardGamesListView_ItemSelected">
@@ -24,6 +31,7 @@
                                                         CachingEnabled="false" />
                                     </Image.Source>
                                 </Image>
+
                             </AbsoluteLayout>
                             <Label Text="{Binding name}"
                                    FontSize="20"

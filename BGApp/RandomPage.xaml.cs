@@ -30,7 +30,7 @@ namespace BGApp
                 var content = await _client.GetStringAsync(Url);
                 var boardGame = JsonConvert.DeserializeObject<Games>(content);
 
-                await Navigation.PushAsync(new BoardGameDetailPage(boardGame.games.First()));
+                await Navigation.PushAsync(new BoardGameDetailPage(boardGame.games.FirstOrDefault()));
             }
             catch (Exception ex)
             {
