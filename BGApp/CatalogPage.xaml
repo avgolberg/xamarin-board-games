@@ -17,52 +17,141 @@
                      WidthRequest="30"
                      HeightRequest="30"
                      Clicked="addFilters_Clicked" />
-        <ScrollView x:Name="filters"
+        <StackLayout x:Name="filters"
                     IsVisible="false"
-                    VerticalOptions="StartAndExpand">
+                    VerticalOptions="Start">
             <TableView Intent="Form">
                 <TableRoot>
                     <TableSection>
                         <ViewCell>
-                            <Picker Title="Sort By">
-                                <Picker.Items>
-                                    <x:String>Name</x:String>
-                                    <x:String>Price</x:String>
-                                    <x:String>Year Published</x:String>
-                                </Picker.Items>
-                            </Picker>
+                            <StackLayout Orientation="Horizontal"
+                                         Padding="13,0">
+                                <Label VerticalOptions="Center"
+                                       FontSize="14"
+                                       Text="Min Age" />
+                                <Entry Keyboard="Numeric"
+                                       x:Name="min_age"
+                                       HorizontalOptions="FillAndExpand" />
+                            </StackLayout>
                         </ViewCell>
-                    </TableSection>
-                    <TableSection Title="Filters">
-                        <EntryCell Label="Min Age"
-                                   Placeholder=""
-                                   Keyboard="Numeric" />
-                        <EntryCell Label="Min Players"
-                                   Placeholder=""
-                                   Keyboard="Numeric" />
-                        <EntryCell Label="Max Players"
-                                   Placeholder=""
-                                   Keyboard="Numeric" />
-                        <EntryCell Label="Min Playtime"
-                                   Placeholder=""
-                                   Keyboard="Numeric" />
-                        <EntryCell Label="Max Playtime"
-                                   Placeholder=""
-                                   Keyboard="Numeric" />
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal"
+                                         Padding="13,0">
+                                <Label Text="Players:"
+                                       FontSize="14"
+                                       VerticalOptions="Center" />
+                                <Label VerticalOptions="Center"
+                                       FontSize="14"
+                                       Text="Min" />
+                                <Entry Keyboard="Numeric"
+                                       HorizontalTextAlignment="Center"
+                                       x:Name="min_players"
+                                       HorizontalOptions="FillAndExpand" />
+                                <Label VerticalOptions="Center"
+                                       FontSize="14"
+                                       Text="Max" />
+                                <Entry Keyboard="Numeric"
+                                       HorizontalTextAlignment="Center"
+                                       x:Name="max_players"
+                                       HorizontalOptions="FillAndExpand" />
+                            </StackLayout>
+                        </ViewCell>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal"
+                                         Padding="13,0">
+                                <Label Text="Playtime:"
+                                       FontSize="14"
+                                       VerticalOptions="Center" />
+                                <Label VerticalOptions="Center"
+                                       FontSize="14"
+                                       Text="Min" />
+                                <Entry Keyboard="Numeric"
+                                       HorizontalTextAlignment="Center"
+                                       HorizontalOptions="FillAndExpand"
+                                       x:Name="min_playtime" />
+                                <Label VerticalOptions="Center"
+                                       FontSize="14"
+                                       Text="Max" />
+                                <Entry Keyboard="Numeric"
+                                       HorizontalTextAlignment="Center"
+                                       HorizontalOptions="FillAndExpand"
+                                       x:Name="max_playtime" />
+                            </StackLayout>
+                        </ViewCell>
                         <ViewCell x:Name="categories" Tapped="categories_Tapped">
-                            <StackLayout>
-                                <Label Text="Categories" />
-                                <Label x:Name="categoryName"
+                            <StackLayout Orientation="Horizontal" Padding="13,0" VerticalOptions="CenterAndExpand" >
+                                <Label Text="Categories"
+                                       FontSize="14"
+                                       VerticalOptions="Center"/>
+                                <Label x:Name="categoriesName"
+                                       FontSize="14"
+                                       LineBreakMode="WordWrap"
                                        VerticalOptions="Center"
                                        HorizontalOptions="EndAndExpand"
-                                       Text="None"
-                                       TextColor="Gray" />
+                                       Text="None" />
+                            </StackLayout>
+                        </ViewCell>
+                        <ViewCell x:Name="mechanics"
+                                  Tapped="mechanics_Tapped">
+                            <StackLayout Orientation="Horizontal"
+                                         Padding="13,0">
+                                <Label Text="Mechanics"
+                                       FontSize="14"
+                                       VerticalOptions="Center" />
+                                <Label x:Name="mechanicsName"
+                                       LineBreakMode="WordWrap"
+                                       FontSize="14"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="EndAndExpand"
+                                       Text="None" />
+                            </StackLayout>
+                        </ViewCell>
+                        <!--<ViewCell>
+                            <StackLayout Orientation="Horizontal"
+                                         Padding="13,0">
+                                <Label VerticalOptions="Center"
+                                       FontSize="14"
+                                       Text="Publisher" />
+                                <Entry Keyboard="Text"
+                                       HorizontalTextAlignment="Center"
+                                       x:Name="publisher"
+                                       HorizontalOptions="FillAndExpand" />
+                            </StackLayout>
+                        </ViewCell>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal"
+                                         Padding="13,0">
+                                <Label VerticalOptions="Center"
+                                       FontSize="14"
+                                       Text="Designer" />
+                                <Entry Keyboard="Text"
+                                       HorizontalTextAlignment="Center"
+                                       x:Name="designer"
+                                       HorizontalOptions="FillAndExpand" />
+                            </StackLayout>
+                        </ViewCell>-->
+                        <ViewCell>
+                            <StackLayout>
+                                <Picker Title="Sort By"
+                                        FontSize="14"
+                                        x:Name="sort">
+                                    <Picker.Items>
+                                        <x:String>Name</x:String>
+                                        <x:String>Price</x:String>
+                                        <x:String>Year Published</x:String>
+                                        <x:String>None</x:String>
+                                    </Picker.Items>
+                                </Picker>
                             </StackLayout>
                         </ViewCell>
                     </TableSection>
                 </TableRoot>
             </TableView>
-        </ScrollView>
+            <Button x:Name="filter"
+                    Text="Filter"
+                    Clicked="filter_Clicked" />
+        </StackLayout>
+        <ActivityIndicator x:Name="dataLoading" />
         <ListView x:Name="boardGamesListView"
                   HasUnevenRows="True"
                   ItemSelected="boardGamesListView_ItemSelected">

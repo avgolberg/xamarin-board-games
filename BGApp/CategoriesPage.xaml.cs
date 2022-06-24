@@ -13,23 +13,21 @@ using Xamarin.Forms.Xaml;
 namespace BGApp
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public class SelectableData<T>
-    {
-        public T Data { get; set; }
-        public bool Selected { get; set; }
-    }
+    
     public partial class CategoriesPage : ContentPage
     {
         private HttpClient _client = new HttpClient();
-        private List<SelectableData<Category>> categoriesList { get; set; }
-        private List<Category> selectedCategories { get; set; }
+        private List<SelectableData<Category>> categoriesList = new List<SelectableData<Category>>();
+        private List<Category> selectedCategories = new List<Category>();
+        List<string> selectedCategoriesNames;
+        private CatalogPage page;
 
-        public Button selectButton { get { return selectButton; } }
-
-        public CategoriesPage()
+        public CategoriesPage(CatalogPage page, List<string> selectedCategoriesNames)
         {
-            InitializeComponent();
+            this.page = page;
+            this.selectedCategoriesNames = selectedCategoriesNames;
             LoadData();
+            InitializeComponent();
         }
 
         private async void LoadData()
@@ -37,9 +35,16 @@ namespace BGApp
             string Url = "https://api.boardgameatlas.com/api/game/categories?pretty=true&client_id=5cTX7InZUl";
             var content = await _client.GetStringAsync(Url);
             var categories = JsonConvert.DeserializeObject<Categories>(content);
+            if (selectedCategoriesNames.Count!=0)
+            {
+                selectedCategories = categories.categories.Join(selectedCategoriesNames, c => c.name, sc => sc, (c, sc) => c).ToList();
+            }
             foreach (Category category in categories.categories)
             {
-                categoriesList.Add(new SelectableData<Category> { Data = category, Selected = false });
+                if(selectedCategories.Contains(category))
+                    categoriesList.Add(new SelectableData<Category> { Data = category, Selected = true });
+                else
+                    categoriesList.Add(new SelectableData<Category> { Data = category, Selected = false });
             }
             categoriesListView.ItemsSource = categoriesList;
         }
@@ -49,36 +54,48 @@ namespace BGApp
             if (String.IsNullOrEmpty(e.NewTextValue)) categoriesListView.ItemsSource = categoriesList;
             else
             {
-                categoriesListView.ItemsSource = categoriesList.FindAll(c => c.Data.name.StartsWith(e.NewTextValue));
+                categoriesListView.ItemsSource = categoriesList.FindAll(c => c.Data.name.Contains(e.NewTextValue) || c.Data.name.ToLower().Contains(e.NewTextValue) || c.Data.name.ToLower().StartsWith(e.NewTextValue) || c.Data.name.StartsWith(e.NewTextValue));
             }
 
         }
 
         private void select_Clicked(object sender, EventArgs e)
         {
+            selectedCategories.Clear();
             var isSelected = categoriesList.FindAll(c => c.Selected == true);
-            foreach (var category in isSelected)
+            if (isSelected != null)
             {
-                selectedCategories.Add(category.Data);
-            }
-
-            int count = selectedCategories.Count - 1;
-            StringBuilder sb = new StringBuilder();
-            if (selectedCategories.Count > 1)
-            {
-                for (int i = 0; i < count; i++)
+                foreach (var category in isSelected)
                 {
-                    sb.Append(selectedCategories[i].name + " · ");
+                    selectedCategories.Add(category.Data);
                 }
-                sb.Append(selectedCategories[count].name);
-                CatalogPage.selectedCategories = "Categories: " + sb.ToString();
-            }
-            else if (selectedCategories.Count == 1)
-            {
-                CatalogPage.selectedCategories = "Categories: " + selectedCategories[count].name;
-            }
 
+                int count = selectedCategories.Count - 1;
+                StringBuilder sb = new StringBuilder();
+                if (selectedCategories.Count > 1)
+                {
+                    for (int i = 0; i < count; i++)
+                    {
+                        sb.Append(selectedCategories[i].name + " · ");
+                    }
+                    sb.Append(selectedCategories[count].name);
+                    page.SetCategories(sb.ToString());
+                }
+                else if (selectedCategories.Count == 1)
+                {
+                    page.SetCategories(selectedCategories[count].name);
+                }
+                else
+                {
+                    page.SetCategories("None");
+                }
+            }
             Navigation.PopAsync();
+        }
+
+        private void categoriesListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            categoriesListView.SelectedItem = null;
         }
     }
 }
